@@ -1,0 +1,57 @@
+<% query_options = nil unless defined?(query_options) %>
+<% query_options ||= {} %>
+
+<%= form_tag({}, data: {cm_url: contacts_context_menu_path}) do -%>
+  <%= hidden_field_tag 'back_url', url_for(params: request.query_parameters), id: nil %>
+  <%= query_columns_hidden_tags(query) %>
+  <div class="autoscroll">
+    <table class="list contacts odd-even <%= query.css_classes %>">
+      <thead>
+      <tr>
+        <th class="checkbox hide-when-print">
+          <%= check_box_tag 'check_all', '', false, class: 'toggle-selection',
+                            title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+        </th>
+        <% query.inline_columns.each do |column| %>
+          <%= column_header(query, column, query_options) %>
+        <% end %>
+        <th class="buttons"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% grouped_contacts_list(contacts, query) do |contact, level, group_name, group_count, group_totals| -%>
+        <% if group_name %>
+          <% reset_cycle %>
+          <tr class="group open">
+            <td colspan="<%= query.inline_columns.size + 2 %>">
+              <span class="expander icon icon-expended" onclick="toggleRowGroup(this);">&nbsp;</span>
+              <span class="name"><%= group_name %></span> <span class="badge badge-count count"><%= group_count %></span> <span class="totals"><%= group_totals %></span>
+              <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}",
+                                   "toggleAllRowGroups(this)", class: 'toggle-all') %>
+            </td>
+          </tr>
+        <% end %>
+        <tr id="contact-<%= contact.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+          <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", contact.id, false, id: nil) %></td>
+          <% query.inline_columns.each do |column| %>
+            <%= content_tag('td', contact_column_content(column, contact), class: column.css_classes) %>
+          <% end %>
+          <td class="buttons"><%= link_to_context_menu %></td>
+        </tr>
+        <% query.block_columns.each do |column| %>
+          <% if (text = contact_column_content(column, contact)) && text.present? -%>
+          <tr class="<%= current_cycle %>">
+            <td colspan="<%= query.inline_columns.size + 2 %>" class="block_column">
+              <% if query.block_columns.count > 1 %>
+                <span><%= column.caption %></span>
+              <% end %>
+              <%= text %>
+            </td>
+          </tr>
+        <% end -%>
+       <% end -%>
+      <% end -%>
+      </tbody>
+    </table>
+  </div>
+<% end -%>

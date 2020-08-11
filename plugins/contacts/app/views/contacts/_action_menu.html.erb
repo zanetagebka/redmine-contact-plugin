@@ -1,0 +1,7 @@
+<div class="contextual">
+  <%= link_to l(:button_edit), edit_project_contact_path(params[:project_id], @contact),
+              :onclick => 'showAndScrollTo("update"); return false;',
+              :class => 'icon icon-edit', :accesskey => accesskey(:edit) if @contact.editable? %>
+  <%= link_to l(:button_delete), project_contact_path(params[:project_id], @contact),
+              :method => :delete, :class => 'icon icon-del' if @contact.deletable? %>
+</div>

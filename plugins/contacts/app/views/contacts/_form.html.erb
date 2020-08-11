@@ -1,0 +1,40 @@
+<%= labelled_fields_for :contact, @contact do |f| %>
+  <% if @contact.safe_attribute? 'first_name' %>
+    <p><%= f.text_field :first_name, size: 80, maxlength: 255, required: true %></p>
+  <% end %>
+  <% if @contact.safe_attribute? 'last_name' %>
+    <p><%= f.text_field :last_name, size: 80, maxlength: 255, required: true %></p>
+  <% end %>
+  <% if @contact.safe_attribute? 'birthday' %>
+    <p><%= f.date_field :birthday, size: 10 %><%= calendar_for('contact_birthday') %></p>
+  <% end %>
+  <% if @contact.safe_attribute? 'phone' %>
+    <p><%= f.text_field :phone, size: 80, maxlength: 255 %></p>
+  <% end %>
+  <% if @contact.safe_attribute? 'email' %>
+    <p><%= f.text_field :email, size: 80, maxlength: 255, required: true %></p>
+  <% end %>
+  <% if @contact.safe_attribute? 'website' %>
+    <p><%= f.text_field :website, size: 80, maxlength: 255 %></p>
+  <% end %>
+  <% if @contact.safe_attribute? 'company' %>
+    <p><%= f.text_field :company, size: 80, maxlength: 255 %></p>
+  <% end %>
+  <% if @contact.safe_attribute? 'is_company' %>
+    <p><%= f.check_box :is_company %></p>
+  <% end %>
+
+  <% @contact.custom_field_values.each do |value| %>
+    <p><%= custom_field_tag_with_label :contact, value %></p>
+  <% end %>
+
+  <%= f.fields_for :addresses do |a| %>
+    <p class="address">
+      <label><%= l(:label_address) %></label>
+    <p><%= a.text_field :street, no_label: true, placeholder: l(:label_street) -%></p>
+    <p><%= a.text_field :city, no_label: true, placeholder: l(:label_city) -%> </p>
+    <p><%= a.text_field :region, no_label: true, placeholder: l(:label_region) -%></p>
+    <p><%= a.text_field :postcode, no_label: true, placeholder: l(:label_postcode), :size => 12 -%></p>
+    <p><%= a.text_field :country_code, no_label: true, placeholder: l(:label_country) -%></p>
+  <% end %>
+<% end %>

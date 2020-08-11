@@ -1,0 +1,27 @@
+en:
+  notice_unable_delete_contact: Unable to delete contact.
+  field_first_name: First name
+  field_birthday: Birthday
+  field_last_name: Last name
+  field_company: Company
+  field_website: Website
+  field_phone: Phone
+  field_is_company: Is company?
+  field_contact_company: Company
+  field_contact_phone: Phone number
+  field_contact_email: E-mail address
+  label_contact_new: New Contact
+  label_contact_plural: Contacts
+  label_street: Street
+  label_city: City
+  label_region: Region
+  label_postcode: Postcode
+  label_country: Country Code
+  label_address: Address
+  notice_contact_successful_create: Contact was successfuly created
+  contacts: Contacts
+  label_countries:
+    CZ: Czech Republic
+    GB: Great Britain
+    PL: Poland
+    DE: Germany

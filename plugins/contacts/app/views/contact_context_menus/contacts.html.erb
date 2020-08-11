@@ -1,0 +1,14 @@
+<ul>
+  <% if @contact -%>
+    <li><%= context_menu_link l(:button_show), project_contact_path(@project, @contact),
+                              class: 'icon icon-show', disabled: !@can[:edit] %></li>
+    <li><%= context_menu_link l(:button_edit), edit_project_contact_path(@project, @contact),
+                              class: 'icon icon-edit', disabled: !@can[:edit] %></li>
+    <li><%= context_menu_link l(:button_delete), project_contact_path(@project, @contact), method: :delete, data: { confirm: "Are you sure?" },
+    class: 'icon icon-del', disabled: !@can[:delete] %></li>
+  <% end %>
+  <% unless @contact %>
+    <li><%= context_menu_link l(:button_filter), project_contacts_path(@project, set_filter: 1, status_id: "*", contact_id: @contact_ids.join(","), c: @columns),
+                              class: 'icon icon-list' %></li>
+  <% end %>
+</ul>

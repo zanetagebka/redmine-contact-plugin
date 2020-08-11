@@ -1,0 +1,24 @@
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'contacts', plugin: 'contacts' %>
+<% end %>
+
+<%= title l(:label_contact_new) %>
+
+<%= labelled_form_for [@project, @contact], html: { id: 'contact-form', multipart: true } do |f| %>
+  <%= error_messages_for 'contact' %>
+  <div class="box tabular">
+    <div id="all_attributes">
+      <%= render partial: 'contacts/form', locals: { f: f } %>
+    </div>
+  </div>
+  <p id="attachments_form">
+    <label><%= l(:label_attachment_plural) %></label>
+    <%= render partial: 'attachments/form', locals: { container: @contact } %>
+  </p>
+
+  <%= submit_tag l(:button_create) %>
+<% end %>
+
+<div class="contextual">
+  <%= link_to "Contacts List", project_contacts_path(@project) %>
+</div>

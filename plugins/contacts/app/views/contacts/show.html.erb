@@ -1,0 +1,42 @@
+<%= render partial: 'action_menu' %>
+
+<h2><%= "#{@contact.first_name} #{@contact.last_name}" %></h2>
+
+<div class="attributes">
+  <p>First name: <%= @contact.first_name %></p>
+  <p>Last name: <%= @contact.last_name %></p>
+  <p>Phone number: <%= @contact.phone %></p>
+  <p>E-mail address: <%= @contact.email %></p>
+  <p>Website: <%= @contact.website %></p>
+  <p>Company name: <%= @contact.company %></p>
+  <p>Is contact company?: <%= @contact.is_company? %></p>
+</div>
+
+<div class="attributes">
+  <% @contact.addresses.each do |address| %>
+    <h4>Address</h4>
+    <p>Street: <%=address.street %></p>
+    <p>City: <%=address.city %></p>
+    <p>Region: <%=address.region %></p>
+    <p>Postcode: <%=address.postcode %></p>
+    <p>Country: <%=address.country %></p>
+  <% end %>
+</div>
+
+<% if @contact.attachments.any? %>
+  <hr />
+  <p><strong><%=l(:label_attachment_plural)%></strong></p>
+  <%= link_to_attachments @contact, :thumbnails => true %>
+<% end %>
+
+<%= render_full_width_custom_fields_rows(@contact) %>
+<%= render partial: 'action_menu_edit' if User.current.wants_comments_in_reverse_order? %>
+
+<div id="history">
+  <%= render_tabs contact_history_tabs, contact_history_default_tab %>
+</div>
+
+<%= render partial: 'action_menu_edit' unless User.current.wants_comments_in_reverse_order? %>
+<div class="contextual">
+  <%= link_to "Contacts List", project_contacts_path(params[:project_id]) %>
+</div>
